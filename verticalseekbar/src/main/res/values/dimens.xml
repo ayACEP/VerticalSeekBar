@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="seek_controller_diameter">11dp</dimen>
+    <dimen name="seek_controller_radius">5.5dp</dimen>
+</resources>

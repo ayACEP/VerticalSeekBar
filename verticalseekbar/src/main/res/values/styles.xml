@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="VerticalSeekbarStyle">
+        <item name="vs_thumb">@drawable/shape_verticalseekbar_pop_pressed</item>
+        <item name="vs_progressDrawable">@drawable/verticalseekbar_progress</item>
+    </style>
+</resources>
