@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="pop_seek_controller">#eb6877</color>
+    <color name="seek_controller">#eb6877</color>
+    <color name="seek_controller_pressed">#4FFFFFFF</color>
 </resources>

@@ -1,4 +1,7 @@
 <resources>
-    <dimen name="seek_controller_diameter">11dp</dimen>
-    <dimen name="seek_controller_radius">5.5dp</dimen>
+    <dimen name="seek_controller_diameter">12dp</dimen>
+    <dimen name="seek_controller_radius">6dp</dimen>
+    <dimen name="seek_controller_padding">9dp</dimen>
+    <dimen name="seek_controller_big_diameter">30dp</dimen>
+    <dimen name="seek_controller_big_radius">18dp</dimen>
 </resources>

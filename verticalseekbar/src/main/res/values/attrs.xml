@@ -3,6 +3,10 @@
     <declare-styleable name="VerticalSeekbar">
         <attr name="vs_thumb" format="reference"/>
         <attr name="vs_progressDrawable" format="reference"/>
+        <attr name="vs_max" format="integer"/>
+        <attr name="vs_min" format="integer"/>
+        <attr name="vs_progress" format="integer"/>
+        <attr name="vs_secondaryProgress" format="integer"/>
     </declare-styleable>
     <attr name="VerticalSeekbarStyle" format="reference"/>
 </resources>
