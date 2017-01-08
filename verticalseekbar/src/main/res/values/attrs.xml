@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="VerticalSeekbar">
+    <declare-styleable name="VerticalSeekBar">
         <attr name="vs_thumb" format="reference"/>
         <attr name="vs_progressDrawable" format="reference"/>
         <attr name="vs_max" format="integer"/>
         <attr name="vs_min" format="integer"/>
         <attr name="vs_progress" format="integer"/>
         <attr name="vs_secondaryProgress" format="integer"/>
+        <attr name="vs_direction" format="enum">
+            <enum name="bottom_to_top" value="0"/>
+            <enum name="top_to_bottom" value="1"/>
+        </attr>
     </declare-styleable>
     <attr name="VerticalSeekbarStyle" format="reference"/>
 </resources>
