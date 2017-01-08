@@ -1,2 +1,2 @@
 # VerticalSeekBar
-A Android VerticalSeekBar
+An Android VerticalSeekBar
