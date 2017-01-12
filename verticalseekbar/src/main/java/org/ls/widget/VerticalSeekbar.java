@@ -49,7 +49,7 @@ public class VerticalSeekBar extends View {
     }
 
     public VerticalSeekBar(Context context, AttributeSet attrs) throws Exception {
-        this(context, attrs, R.attr.VerticalSeekbarStyle);
+        this(context, attrs, 0);
     }
 
     public VerticalSeekBar(Context context, AttributeSet attrs, int defStyleAttr) throws Exception {

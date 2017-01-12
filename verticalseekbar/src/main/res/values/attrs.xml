@@ -12,5 +12,4 @@
             <enum name="top_to_bottom" value="1"/>
         </attr>
     </declare-styleable>
-    <attr name="VerticalSeekbarStyle" format="reference"/>
 </resources>
