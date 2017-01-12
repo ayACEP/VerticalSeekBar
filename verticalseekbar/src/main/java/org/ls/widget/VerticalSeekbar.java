@@ -4,13 +4,15 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ScaleDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.SeekBar;
 
 import java.lang.reflect.Field;
 
@@ -21,8 +23,8 @@ import java.lang.reflect.Field;
 
 public class VerticalSeekBar extends View {
 
-    private static final int[] STATE_PRESSED = new int[]{android.R.attr.state_pressed};
-    private static final int[] STATE_EMPTY = new int[]{android.R.attr.state_empty};
+    private static final int[] STATE_PRESSED = new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled};
+    private static final int[] STATE_NORMAL = new int[]{android.R.attr.state_enabled};
 
     private static final int DIRECTION_BOTTOM_TO_TOP = 0;
     private static final int DIRECTION_TOP_TO_BOTTOM = 1;
@@ -36,13 +38,15 @@ public class VerticalSeekBar extends View {
     private Drawable thumb;
     private Drawable progressDrawable;
     private Drawable bgDrawable;
-    private ClipDrawable proDrawable;
-    private ClipDrawable secProDrawable;
+    private Drawable proDrawable;
+    private Drawable secProDrawable;
 
     private RangeMapping pixel2progress = new RangeMapping();
     private RangeMapping pixel2level = new RangeMapping();
 
     private OnVerticalSeekBarChangeListener onVerticalSeekBarChangeListener;
+
+    private boolean isTracking = false;
 
     public VerticalSeekBar(Context context) {
         super(context);
@@ -54,7 +58,7 @@ public class VerticalSeekBar extends View {
 
     public VerticalSeekBar(Context context, AttributeSet attrs, int defStyleAttr) throws Exception {
         super(context, attrs, defStyleAttr);
-
+        SeekBar d;
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VerticalSeekBar, defStyleAttr, R.style.VerticalSeekbarStyle);
         thumb = ta.getDrawable(R.styleable.VerticalSeekBar_vs_thumb);
         progressDrawable = ta.getDrawable(R.styleable.VerticalSeekBar_vs_progressDrawable);
@@ -69,15 +73,21 @@ public class VerticalSeekBar extends View {
         ta.recycle();
 
         bgDrawable = ((LayerDrawable) progressDrawable).findDrawableByLayerId(android.R.id.background);
-        proDrawable = (ClipDrawable) ((LayerDrawable) progressDrawable).findDrawableByLayerId(android.R.id.progress);
-        secProDrawable = (ClipDrawable) ((LayerDrawable) progressDrawable).findDrawableByLayerId(android.R.id.secondaryProgress);
+        proDrawable = ((LayerDrawable) progressDrawable).findDrawableByLayerId(android.R.id.progress);
+        secProDrawable = ((LayerDrawable) progressDrawable).findDrawableByLayerId(android.R.id.secondaryProgress);
 
         // If there is more than 2 VerticalSeekBar and they use different direction in a app, must use different progressDrawable(just copy and change name).
         // Because system will reuse drawable cause all drawable actually are the same one, you change one, another also will be changed.
         if (direction == DIRECTION_TOP_TO_BOTTOM) {
+            ScaleDrawable x;
             setGravity(proDrawable.getConstantState(), Gravity.TOP);
             setGravity(secProDrawable.getConstantState(), Gravity.TOP);
+        } else if (direction == DIRECTION_BOTTOM_TO_TOP) {
+            setGravity(proDrawable.getConstantState(), Gravity.BOTTOM);
+            setGravity(secProDrawable.getConstantState(), Gravity.BOTTOM);
         }
+
+        thumb.setState(STATE_NORMAL);
     }
 
     private void setGravity(Drawable.ConstantState state, int gravity) {
@@ -102,6 +112,7 @@ public class VerticalSeekBar extends View {
                 onActionMove(event);
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 onActionUp(event);
                 break;
             default:
@@ -111,6 +122,8 @@ public class VerticalSeekBar extends View {
     }
 
     private void onActionDown(MotionEvent event) {
+        removeCallbacks(noTracking);
+        isTracking = true;
         onVerticalSeekBarChangeListener.onStartTrackingTouch(this);
         thumb.setState(STATE_PRESSED);
         onActionMove(event);
@@ -123,10 +136,18 @@ public class VerticalSeekBar extends View {
     }
 
     private void onActionUp(MotionEvent event) {
+        postDelayed(noTracking, 15 * 6);
         onVerticalSeekBarChangeListener.onStopTrackingTouch(this);
-        thumb.setState(STATE_EMPTY);
+        thumb.setState(STATE_NORMAL);
         invalidate();
     }
+
+    Runnable noTracking = new Runnable() {
+        @Override
+        public void run() {
+            isTracking = false;
+        }
+    };
 
     private void moveThumbTo(float yPos, boolean fromUser) {
         if (yPos < progressDrawable.getBounds().top) {
@@ -186,6 +207,9 @@ public class VerticalSeekBar extends View {
         super.onDraw(canvas);
         progressDrawable.draw(canvas);
         thumb.draw(canvas);
+        if (isTracking) {
+            postInvalidate();
+        }
     }
 
     public OnVerticalSeekBarChangeListener getOnVerticalSeekBarChangeListener() {
