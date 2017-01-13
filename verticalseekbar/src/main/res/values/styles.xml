@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="VerticalSeekbarStyle">
-        <item name="vs_thumb">@drawable/verticalseekbar_thumb</item>
-        <item name="vs_progressDrawable">@drawable/verticalseekbar_progress</item>
+        <item name="vs_thumb">@drawable/scrubber_control_material_anim</item>
+        <item name="vs_progressDrawable">@drawable/scrubber_progress_vertical_material</item>
+        <item name="android:background">@drawable/item_background_borderless_material</item>
     </style>
 </resources>

@@ -13,6 +13,7 @@
     <org.ls.widget.VerticalSeekBar android:id="@+id/seek_bar_1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:background="@drawable/item_background_borderless_material"
         app:vs_max="1500"
         app:vs_min="-1500"
         app:vs_progress="0"
@@ -21,13 +22,14 @@
     <org.ls.widget.VerticalSeekBar android:id="@+id/seek_bar_2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        app:vs_no_ripple="true"
         app:vs_max="100"
         app:vs_min="0"
         app:vs_progress="10"
         app:vs_secondaryProgress="20"
         app:vs_direction="bottom_to_top"
-        app:vs_progressDrawable="@drawable/scrubber_progress_vertical_material"
-        app:vs_thumb="@drawable/scrubber_control_material_anim"/>
+        app:vs_progressDrawable="@drawable/progress"
+        app:vs_thumb="@drawable/thumb"/>
 
     <TextView android:id="@+id/txt"
         android:layout_width="wrap_content"

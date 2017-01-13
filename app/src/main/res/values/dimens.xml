@@ -1,5 +1,10 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="seek_controller_diameter">12dp</dimen>
+    <dimen name="seek_controller_radius">6dp</dimen>
+    <dimen name="seek_controller_padding">9dp</dimen>
+    <dimen name="seek_controller_big_diameter">30dp</dimen>
+    <dimen name="seek_controller_big_radius">18dp</dimen>
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>
