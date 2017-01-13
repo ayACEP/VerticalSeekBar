@@ -2,4 +2,5 @@
 <resources>
     <color name="seek_controller">#eb6877</color>
     <color name="seek_controller_pressed">#4FFFFFFF</color>
+    <item name="highlight_alpha_material_colored" format="float" type="dimen">0.26</item>
 </resources>
