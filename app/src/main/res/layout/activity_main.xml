@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -10,33 +10,54 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
-    <org.ls.widget.VerticalSeekBar android:id="@+id/seek_bar_1"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@drawable/item_background_borderless_material"
-        app:vs_max="1500"
-        app:vs_min="-1500"
-        app:vs_progress="0"
-        app:vs_secondaryProgress="1400"/>
-
-    <org.ls.widget.VerticalSeekBar android:id="@+id/seek_bar_2"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:vs_no_ripple="true"
-        app:vs_max="100"
-        app:vs_min="0"
-        app:vs_progress="10"
-        app:vs_secondaryProgress="20"
-        app:vs_direction="bottom_to_top"
-        app:vs_progressDrawable="@drawable/progress"
-        app:vs_thumb="@drawable/thumb"/>
-
     <TextView android:id="@+id/txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <SeekBar android:id="@+id/seek"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <org.ls.widget.VerticalSeekBar android:id="@+id/seek_bar_1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:vs_max="1500"
+            app:vs_min="-1500"
+            app:vs_progress="0"
+            app:vs_secondaryProgress="1400"/>
+
+        <org.ls.widget.VerticalSeekBar android:id="@+id/seek_bar_2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:vs_material="false"
+            app:vs_max="100"
+            app:vs_min="0"
+            app:vs_progress="10"
+            app:vs_secondaryProgress="20"
+            app:vs_direction="bottom_to_top"
+            app:vs_progressDrawable="@drawable/progress"
+            app:vs_thumb="@drawable/thumb"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <SeekBar android:id="@+id/seek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progress="20"
+                android:secondaryProgress="50"/>
+
+            <android.support.v7.widget.AppCompatSeekBar android:id="@+id/seek_appcompat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progress="20"
+                android:secondaryProgress="50" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

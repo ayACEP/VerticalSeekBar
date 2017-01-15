@@ -2,6 +2,7 @@ package org.ls.widget.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatSeekBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ public class MainActivity extends Activity {
     private VerticalSeekBar seekBar1;
     private VerticalSeekBar seekBar2;
     private SeekBar seek;
+    private AppCompatSeekBar seekAppcompat;
     private TextView txt;
 
     @Override
@@ -20,52 +22,65 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         txt = (TextView) findViewById(R.id.txt);
-        seek = (SeekBar) findViewById(R.id.seek);
         seekBar1 = (VerticalSeekBar) findViewById(R.id.seek_bar_1);
         seekBar2 = (VerticalSeekBar) findViewById(R.id.seek_bar_2);
+        seek = (SeekBar) findViewById(R.id.seek);
+        seekAppcompat = (AppCompatSeekBar) findViewById(R.id.seek_appcompat);
 
-//        seek.setEnabled(false);
-        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int[] state = seekBar.getDrawableState();
-                progress = 1;
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                int[] state = seekBar.getDrawableState();
-                int progress = 1;
-            }
-        });
         seekBar1.setOnVerticalSeekBarChangeListener(new VerticalSeekBar.OnVerticalSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(VerticalSeekBar seekbar) {
-                txt.setText("seekBar1 onStartTrackingTouch");
+                txt.setText("VerticalSeekBar onStartTrackingTouch");
             }
             @Override
             public void onStopTrackingTouch(VerticalSeekBar seekbar) {
-                txt.setText("seekBar1 onStopTrackingTouch");
+                txt.setText("VerticalSeekBar onStopTrackingTouch");
             }
             @Override
             public void onProgressChanged(VerticalSeekBar seekbar, int progress, boolean fromUser) {
-                txt.setText("seekBar1 " + progress);
+                txt.setText("VerticalSeekBar " + progress);
             }
         });
         seekBar2.setOnVerticalSeekBarChangeListener(new VerticalSeekBar.OnVerticalSeekBarChangeListener() {
             @Override
             public void onStartTrackingTouch(VerticalSeekBar seekbar) {
-                txt.setText("seekBar2 onStartTrackingTouch");
+                txt.setText("Custom VerticalSeekBar onStartTrackingTouch");
             }
             @Override
             public void onStopTrackingTouch(VerticalSeekBar seekbar) {
-                txt.setText("seekBar2 onStopTrackingTouch");
+                txt.setText("Custom VerticalSeekBar onStopTrackingTouch");
             }
             @Override
             public void onProgressChanged(VerticalSeekBar seekbar, int progress, boolean fromUser) {
-                txt.setText("seekBar2 " + progress);
+                txt.setText("Custom VerticalSeekBar " + progress);
+            }
+        });
+        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                txt.setText("Default SeekBar onStartTrackingTouch");
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                txt.setText("Default SeekBar onStopTrackingTouch");
+            }
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                txt.setText("Default SeekBar " + progress);
+            }
+        });
+        seekAppcompat.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                txt.setText("AppCompat SeekBar onStartTrackingTouch");
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                txt.setText("AppCompat SeekBar onStopTrackingTouch");
+            }
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                txt.setText("AppCompat SeekBar " + progress);
             }
         });
     }

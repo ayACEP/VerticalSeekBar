@@ -1,13 +1,21 @@
 package org.ls.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.AppCompatDrawableManager;
+import android.support.v7.widget.DrawableUtils;
+import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -28,6 +36,9 @@ public class VerticalSeekBar extends View {
 
     private static final int DIRECTION_BOTTOM_TO_TOP = 0;
     private static final int DIRECTION_TOP_TO_BOTTOM = 1;
+
+    private static final int[] TEMP_ARRAY = new int[1];
+    private static final PorterDuff.Mode DEFAULT_MODE = PorterDuff.Mode.SRC_IN;
 
     private int max = 100;
     private int min = 1;
@@ -59,6 +70,7 @@ public class VerticalSeekBar extends View {
     public VerticalSeekBar(Context context, AttributeSet attrs, int defStyleAttr) throws Exception {
         super(context, attrs, defStyleAttr);
         SeekBar d;
+
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VerticalSeekBar, defStyleAttr, R.style.VerticalSeekbarStyle);
         thumb = ta.getDrawable(R.styleable.VerticalSeekBar_vs_thumb);
         progressDrawable = ta.getDrawable(R.styleable.VerticalSeekBar_vs_progressDrawable);
@@ -67,11 +79,11 @@ public class VerticalSeekBar extends View {
         max = ta.getInteger(R.styleable.VerticalSeekBar_vs_max, 100);
         min = ta.getInteger(R.styleable.VerticalSeekBar_vs_min, 1);
         direction = ta.getInt(R.styleable.VerticalSeekBar_vs_direction, 0);// default 0 is bottom_to_top
-        boolean isNoRipple = ta.getBoolean(R.styleable.VerticalSeekBar_vs_no_ripple, false);
+        boolean isMaterial = ta.getBoolean(R.styleable.VerticalSeekBar_vs_material, true);
         if (max <= min) {
             throw new Exception("max must > min");
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getBackground() == null && !isNoRipple) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getBackground() == null && isMaterial) {
             setBackground(getResources().getDrawable(R.drawable.item_background_borderless_material, context.getTheme()));
         }
         ta.recycle();
@@ -90,8 +102,51 @@ public class VerticalSeekBar extends View {
             setGravity(secProDrawable.getConstantState(), Gravity.BOTTOM);
         }
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && isMaterial) {
+            thumb = tintThumbDrawable(context, thumb);
+            setPorterDuffColorFilter(bgDrawable, getThemeAttrColor(context, android.support.v7.appcompat.R.attr.colorControlNormal), DEFAULT_MODE);
+            setPorterDuffColorFilter(secProDrawable, getThemeAttrColor(context, android.support.v7.appcompat.R.attr.colorControlNormal), DEFAULT_MODE);
+            setPorterDuffColorFilter(proDrawable, getThemeAttrColor(context, android.support.v7.appcompat.R.attr.colorControlActivated), DEFAULT_MODE);
+        }
+
         thumb.setState(STATE_NORMAL);
         setBackgroundState(STATE_NORMAL);
+    }
+
+    public int getThemeAttrColor(Context context, int attr) {
+        TEMP_ARRAY[0] = attr;
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(context, null, TEMP_ARRAY);
+        try {
+            return a.getColor(0, 0);
+        } finally {
+            a.recycle();
+        }
+    }
+
+    private void setPorterDuffColorFilter(Drawable d, int color, PorterDuff.Mode mode) {
+        if (DrawableUtils.canSafelyMutateDrawable(d)) {
+            d = d.mutate();
+        }
+        d.setColorFilter(AppCompatDrawableManager.getPorterDuffColorFilter(color, mode == null ? DEFAULT_MODE : mode));
+    }
+
+    private Drawable tintThumbDrawable(@NonNull Context context, @NonNull Drawable drawable) {
+        ColorStateList tintList = AppCompatResources.getColorStateList(context, R.color.tint_seek_thumb);
+        if (DrawableUtils.canSafelyMutateDrawable(drawable)) {
+            drawable = drawable.mutate();
+        }
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTintList(drawable, tintList);
+        return drawable;
+    }
+
+    private void setRippleRect(Rect rect) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (getBackground() != null && getBackground() instanceof RippleDrawable) {
+                getBackground().setHotspot(rect.centerX(), rect.centerY());
+                getBackground().setHotspotBounds(rect.left, rect.top, rect.right, rect.bottom);
+            }
+        }
     }
 
     private void setBackgroundState(int[] stateSet) {
@@ -179,15 +234,6 @@ public class VerticalSeekBar extends View {
             onVerticalSeekBarChangeListener.onProgressChanged(this, progress, fromUser);
         }
         setRippleRect(thumb.getBounds());
-    }
-
-    private void setRippleRect(Rect rect) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (getBackground() != null && getBackground() instanceof RippleDrawable) {
-                getBackground().setHotspot(rect.centerX(), rect.centerY());
-                getBackground().setHotspotBounds(rect.left, rect.top, rect.right, rect.bottom);
-            }
-        }
     }
 
     @Override
