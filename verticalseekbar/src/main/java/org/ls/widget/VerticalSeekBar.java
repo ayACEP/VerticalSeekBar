@@ -238,11 +238,10 @@ public class VerticalSeekBar extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // 设置测量值
         int dw = Math.max(thumb.getIntrinsicWidth(), progressDrawable.getIntrinsicWidth()) + getPaddingLeft() + getPaddingRight();
         int dh = MeasureSpec.getSize(heightMeasureSpec) + getPaddingTop() + getPaddingBottom();
         setMeasuredDimension(dw, dh);
-        // 计算需要的值
+
         int progressHeight = dh - thumb.getIntrinsicHeight();
         int progressPadding = thumb.getIntrinsicHeight() / 2;
         thumb.setBounds(0, 0, thumb.getIntrinsicWidth(), thumb.getIntrinsicHeight());
