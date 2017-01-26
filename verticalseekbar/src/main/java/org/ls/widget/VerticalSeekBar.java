@@ -74,10 +74,10 @@ public class VerticalSeekBar extends View {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VerticalSeekBar, defStyleAttr, R.style.VerticalSeekbarStyle);
         thumb = ta.getDrawable(R.styleable.VerticalSeekBar_vs_thumb);
         progressDrawable = ta.getDrawable(R.styleable.VerticalSeekBar_vs_progressDrawable);
-        progress = ta.getInteger(R.styleable.VerticalSeekBar_vs_progress, 1);
-        secondaryProgress = ta.getInteger(R.styleable.VerticalSeekBar_vs_secondaryProgress, 1);
         max = ta.getInteger(R.styleable.VerticalSeekBar_vs_max, 100);
         min = ta.getInteger(R.styleable.VerticalSeekBar_vs_min, 1);
+        progress = ta.getInteger(R.styleable.VerticalSeekBar_vs_progress, min);
+        secondaryProgress = ta.getInteger(R.styleable.VerticalSeekBar_vs_secondaryProgress, min);
         direction = ta.getInt(R.styleable.VerticalSeekBar_vs_direction, 0);// default 0 is bottom_to_top
         boolean isMaterial = ta.getBoolean(R.styleable.VerticalSeekBar_vs_material, true);
         if (max <= min) {
@@ -189,7 +189,9 @@ public class VerticalSeekBar extends View {
     private void onActionDown(MotionEvent event) {
         removeCallbacks(noTracking);
         isTracking = true;
-        onVerticalSeekBarChangeListener.onStartTrackingTouch(this);
+        if (onVerticalSeekBarChangeListener != null) {
+            onVerticalSeekBarChangeListener.onStartTrackingTouch(this);
+        }
         thumb.setState(STATE_PRESSED);
         setBackgroundState(STATE_PRESSED);
         onActionMove(event);
@@ -203,7 +205,9 @@ public class VerticalSeekBar extends View {
 
     private void onActionUp(MotionEvent event) {
         postDelayed(noTracking, 15 * 6);
-        onVerticalSeekBarChangeListener.onStopTrackingTouch(this);
+        if (onVerticalSeekBarChangeListener != null) {
+            onVerticalSeekBarChangeListener.onStopTrackingTouch(this);
+        }
         thumb.setState(STATE_NORMAL);
         setBackgroundState(STATE_NORMAL);
         invalidate();
