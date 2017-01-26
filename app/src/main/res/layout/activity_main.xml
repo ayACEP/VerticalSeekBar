@@ -22,10 +22,7 @@
         <org.ls.widget.VerticalSeekBar android:id="@+id/seek_bar_1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:vs_max="1500"
-            app:vs_min="-1500"
-            app:vs_progress="0"
-            app:vs_secondaryProgress="1400"/>
+            style="@style/Eq"/>
 
         <org.ls.widget.VerticalSeekBar android:id="@+id/seek_bar_2"
             android:layout_width="wrap_content"
