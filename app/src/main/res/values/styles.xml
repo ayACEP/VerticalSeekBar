@@ -3,4 +3,9 @@
     </style>
     <style name="BaseAppTheme" parent="Theme.AppCompat">
     </style>
+    <style name="Eq">
+        <item name="vs_min">-1500</item>
+        <item name="vs_max">1500</item>
+        <item name="vs_progress">0</item>
+    </style>
 </resources>
