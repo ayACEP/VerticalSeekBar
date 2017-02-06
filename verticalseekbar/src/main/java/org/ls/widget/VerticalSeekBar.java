@@ -379,8 +379,8 @@ public class VerticalSeekBar extends View {
     }
 
     public static interface OnVerticalSeekBarChangeListener {
-        public void onStartTrackingTouch(VerticalSeekBar seekbar);
-        public void onStopTrackingTouch(VerticalSeekBar seekbar);
-        public void onProgressChanged(VerticalSeekBar seekbar, int progress, boolean fromUser);
+        public void onStartTrackingTouch(VerticalSeekBar seekBar);
+        public void onStopTrackingTouch(VerticalSeekBar seekBar);
+        public void onProgressChanged(VerticalSeekBar seekBar, int progress, boolean fromUser);
     }
 }
