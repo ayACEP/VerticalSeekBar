@@ -12,5 +12,6 @@
             <enum name="top_to_bottom" value="1"/>
         </attr>
         <attr name="vs_material" format="boolean"/>
+        <attr name="vs_no_progress" format="boolean"/>
     </declare-styleable>
 </resources>

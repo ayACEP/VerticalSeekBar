@@ -36,6 +36,12 @@
             app:vs_progressDrawable="@drawable/progress"
             app:vs_thumb="@drawable/thumb"/>
 
+        <org.ls.widget.VerticalSeekBar android:id="@+id/seek_bar_3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:vs_no_progress="true"
+            style="@style/Eq"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

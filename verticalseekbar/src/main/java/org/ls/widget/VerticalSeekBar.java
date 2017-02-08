@@ -20,7 +20,6 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.SeekBar;
 
 import java.lang.reflect.Field;
 
@@ -45,6 +44,7 @@ public class VerticalSeekBar extends View {
     private int progress = 1;
     private int secondaryProgress = 1;
     private int direction = 0;
+    private boolean isNoProgress = false;
 
     private Drawable thumb;
     private Drawable progressDrawable;
@@ -69,7 +69,6 @@ public class VerticalSeekBar extends View {
 
     public VerticalSeekBar(Context context, AttributeSet attrs, int defStyleAttr) throws Exception {
         super(context, attrs, defStyleAttr);
-        SeekBar d;
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.VerticalSeekBar, defStyleAttr, R.style.VerticalSeekbarStyle);
         thumb = ta.getDrawable(R.styleable.VerticalSeekBar_vs_thumb);
@@ -80,6 +79,7 @@ public class VerticalSeekBar extends View {
         secondaryProgress = ta.getInteger(R.styleable.VerticalSeekBar_vs_secondaryProgress, min);
         direction = ta.getInt(R.styleable.VerticalSeekBar_vs_direction, 0);// default 0 is bottom_to_top
         boolean isMaterial = ta.getBoolean(R.styleable.VerticalSeekBar_vs_material, true);
+        isNoProgress = ta.getBoolean(R.styleable.VerticalSeekBar_vs_no_progress, false);
         if (max <= min) {
             throw new Exception("max must > min");
         }
@@ -88,9 +88,11 @@ public class VerticalSeekBar extends View {
         }
         ta.recycle();
 
-        bgDrawable = ((LayerDrawable) progressDrawable).findDrawableByLayerId(android.R.id.background);
-        proDrawable = ((LayerDrawable) progressDrawable).findDrawableByLayerId(android.R.id.progress);
-        secProDrawable = ((LayerDrawable) progressDrawable).findDrawableByLayerId(android.R.id.secondaryProgress);
+        if (progressDrawable != null) {
+            bgDrawable = ((LayerDrawable) progressDrawable).findDrawableByLayerId(android.R.id.background);
+            proDrawable = ((LayerDrawable) progressDrawable).findDrawableByLayerId(android.R.id.progress);
+            secProDrawable = ((LayerDrawable) progressDrawable).findDrawableByLayerId(android.R.id.secondaryProgress);
+        }
 
         // If there is more than 2 VerticalSeekBar and they use different direction in a app, must use different progressDrawable(just copy and change name).
         // Because system will reuse drawable cause all drawable actually are the same one, you change one, another also will be changed.
@@ -232,7 +234,11 @@ public class VerticalSeekBar extends View {
 
         float level = pixel2level.getValue2(yPos);
         progress = (int) pixel2progress.getValue2(yPos);
-        proDrawable.setLevel((int) level);
+        if (!isNoProgress) {
+            proDrawable.setLevel((int) level);
+        } else {
+            proDrawable.setLevel(min);
+        }
 
         if (onVerticalSeekBarChangeListener != null) {
             onVerticalSeekBarChangeListener.onProgressChanged(this, progress, fromUser);
@@ -271,13 +277,18 @@ public class VerticalSeekBar extends View {
 
         float secYPos = pixel2progress.getValue1(secondaryProgress);
         int level = (int) pixel2level.getValue2(secYPos);
-        secProDrawable.setLevel(level);
+        if (!isNoProgress) {
+            secProDrawable.setLevel(level);
+        } else {
+            secProDrawable.setLevel(min);
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        progressDrawable.draw(canvas);
+        if (progressDrawable != null) {
+            progressDrawable.draw(canvas);
+        }
         thumb.draw(canvas);
         if (isTracking) {
             postInvalidate();
