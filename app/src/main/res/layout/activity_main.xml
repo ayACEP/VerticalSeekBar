@@ -39,6 +39,7 @@
         <org.ls.widget.VerticalSeekBar android:id="@+id/seek_bar_3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            app:vs_progressDrawable="@drawable/progress_no_secondary"
             app:vs_no_progress="true"
             style="@style/Eq"/>
 

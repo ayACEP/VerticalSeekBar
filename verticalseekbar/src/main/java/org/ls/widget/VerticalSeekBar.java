@@ -98,10 +98,14 @@ public class VerticalSeekBar extends View {
         // Because system will reuse drawable cause all drawable actually are the same one, you change one, another also will be changed.
         if (direction == DIRECTION_TOP_TO_BOTTOM) {
             setGravity(proDrawable.getConstantState(), Gravity.TOP);
-            setGravity(secProDrawable.getConstantState(), Gravity.TOP);
+            if (secProDrawable != null) {
+                setGravity(secProDrawable.getConstantState(), Gravity.TOP);
+            }
         } else if (direction == DIRECTION_BOTTOM_TO_TOP) {
             setGravity(proDrawable.getConstantState(), Gravity.BOTTOM);
-            setGravity(secProDrawable.getConstantState(), Gravity.BOTTOM);
+            if (secProDrawable != null) {
+                setGravity(secProDrawable.getConstantState(), Gravity.BOTTOM);
+            }
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP && isMaterial) {
@@ -277,10 +281,12 @@ public class VerticalSeekBar extends View {
 
         float secYPos = pixel2progress.getValue1(secondaryProgress);
         int level = (int) pixel2level.getValue2(secYPos);
-        if (!isNoProgress) {
-            secProDrawable.setLevel(level);
-        } else {
-            secProDrawable.setLevel(min);
+        if (secProDrawable != null) {
+            if (!isNoProgress) {
+                secProDrawable.setLevel(level);
+            } else {
+                secProDrawable.setLevel(min);
+            }
         }
     }
 

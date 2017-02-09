@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 3
-        versionName "0.3"
+        versionCode 4
+        versionName "0.4"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -40,7 +40,7 @@ dependencies {
 def siteUrl = "https://github.com/ayACEP/VerticalSeekBar"
 def gitUrl = "https://github.com/ayACEP/VerticalSeekBar.git"
 group = "org.ls.widget"
-version = "0.3"
+version = "0.4"
 
 install {
     repositories.mavenInstaller {
