@@ -130,6 +130,9 @@ public class VerticalSeekBar extends View {
     }
 
     private void setPorterDuffColorFilter(Drawable d, int color, PorterDuff.Mode mode) {
+        if (d == null) {
+            return;
+        }
         if (DrawableUtils.canSafelyMutateDrawable(d)) {
             d = d.mutate();
         }
